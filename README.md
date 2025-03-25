@@ -1,1 +1,1 @@
-# DicodingClassPractice_fixingWebsiteAccessibility-BelajarPengembanganWebIntermediate
+# Dicoding Practice - fixing Website Accessibility (Belajar Pengembangan Web Intermediate)
