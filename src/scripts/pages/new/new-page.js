@@ -2,10 +2,12 @@ import NewPresenter from './new-presenter';
 import { convertBase64ToBlob } from '../../utils';
 import * as CityCareAPI from '../../data/api';
 import { generateLoaderAbsoluteTemplate } from '../../templates';
+import Camera from '../../utils/camera';
 
 export default class NewPage {
   #presenter;
   #form;
+  #camera;
   #isCameraOpen = false;
   #takenDocumentations = [];
 
@@ -39,6 +41,7 @@ export default class NewPage {
               </div>
               <div id="title-input-more-info">Pastikan judul laporan dibuat dengan jelas dan deskriptif dalam 1 kalimat.</div>
             </div>
+
             <div class="form-control">
               <div class="new-form__damage-level__title">Tingkat Kerusakan</div>
 
@@ -49,12 +52,14 @@ export default class NewPage {
                     Rendah <span title="Contoh: Lubang kecil di jalan, kerusakan ringan pada tanda lalu lintas, dll."><i class="far fa-question-circle"></i></span>
                   </label>
                 </div>
+
                 <div class="new-form__damage-level__moderate__container">
                   <input id="damage-level-moderate-input" type="radio" name="damageLevel" value="moderate">
                   <label for="damage-level-moderate-input">
                     Sedang <span title="Contoh: Jalan retak besar, trotoar amblas, lampu jalan mati, dll."><i class="far fa-question-circle"></i></span>
                   </label>
                 </div>
+
                 <div class="new-form__damage-level__severe__container">
                   <input id="damage-level-severe-input" type="radio" name="damageLevel" value="severe">
                   <label for="damage-level-severe-input">
@@ -63,6 +68,7 @@ export default class NewPage {
                 </div>
               </div>
             </div>
+
             <div class="form-control">
               <label for="description-input" class="new-form__description__title">Keterangan</label>
 
@@ -74,6 +80,7 @@ export default class NewPage {
                 ></textarea>
               </div>
             </div>
+
             <div class="form-control">
               <label for="documentations-input" class="new-form__documentations__title">Dokumentasi</label>
               <div id="documentations-more-info">Anda dapat menyertakan foto sebagai dokumentasi.</div>
@@ -95,12 +102,26 @@ export default class NewPage {
                     Buka Kamera
                   </button>
                 </div>
+
                 <div id="camera-container" class="new-form__camera__container">
-                  <p>Fitur ambil gambar dengan kamera akan segera hadir!</p>
+                  <video id="camera-video" class="new-form__camera__video">
+                    Video stream not available.
+                  </video>
+                  <canvas id="camera-canvas" class="new-form__camera__canvas"></canvas>
+                  
+                  <div class="new-form__camera__tools">
+                    <select id="camera-select"></select>
+                    <div class="new-form__camera__tools_buttons">
+                      <button id="camera-take-button" class="btn" type="button">
+                        Ambil Gambar
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <ul id="documentations-taken-list" class="new-form__documentations__outputs"></ul>
               </div>
             </div>
+
             <div class="form-control">
               <div class="new-form__location__title">Lokasi</div>
 
@@ -115,6 +136,7 @@ export default class NewPage {
                 </div>
               </div>
             </div>
+
             <div class="form-buttons">
               <span id="submit-button-container">
                 <button class="btn" type="submit">Buat Laporan</button>
@@ -176,11 +198,13 @@ export default class NewPage {
         this.#isCameraOpen = cameraContainer.classList.contains('open');
         if (this.#isCameraOpen) {
           event.currentTarget.textContent = 'Tutup Kamera';
-
+          this.#setupCamera();
+          this.#camera.launch();
           return;
         }
 
         event.currentTarget.textContent = 'Buka Kamera';
+        this.#camera.stop();
       });
   }
 
@@ -189,7 +213,20 @@ export default class NewPage {
   }
 
   #setupCamera() {
-    // TODO: camera initialization
+    if (this.#camera) {
+      return;
+    }
+    this.#camera = new Camera({
+      video: document.getElementById('camera-video'),
+      cameraSelect: document.getElementById('camera-select'),
+      canvas: document.getElementById('camera-canvas'),
+    });
+
+    this.#camera.addCheeseButtonListener('#camera-take-button', async () => {
+      const image = await this.#camera.takePicture();
+      await this.#addTakenPicture(image);
+      await this.#populateTakenPictures();
+    });
   }
 
   async #addTakenPicture(image) {
@@ -258,7 +295,7 @@ export default class NewPage {
     this.clearForm();
 
     // Redirect page
-    location.href = '/';
+    location.hash = '/';
   }
 
   storeFailed(message) {

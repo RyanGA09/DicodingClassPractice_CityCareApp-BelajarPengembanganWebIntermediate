@@ -1,4 +1,4 @@
-# Dicoding Practice - City Care App (Belajar Pengembangan Web Intermediate (Learn Intermediate Web Development))
+# CityCare App Starter Project
 
 ## Pengantar
 
@@ -16,7 +16,6 @@ CityCareApp adalah aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan
 ## Instalasi
 
 - Unduh starter project [citycareapp-starter-project.zip](https://raw.githubusercontent.com/dicodingacademy/a219-web-intermediate-labs/099-shared-files/citycareapp-starter-project.zip).
-
 - Unzip berkas ZIP yang telah diunduh. Bisa pakai perintah berikut untuk Linux:
 
   ```bash
@@ -29,8 +28,7 @@ CityCareApp adalah aplikasi pelaporan kerusakan fasilitas umum yang memungkinkan
   cd citycareapp-starter-project
   ```
 
-- Instal dependensi:
-
+- Pasang seluruh dependensi:
   ```bash
   npm install
   ```
