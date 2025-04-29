@@ -36,7 +36,7 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .skip-link {
@@ -88,13 +88,13 @@ textarea {
   border: 1px solid #d4d4d4;
 
   font-size: 1rem;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 
   resize: vertical;
 }
 
-input[type='radio'],
-input[type='checkbox'] {
+input[type="radio"],
+input[type="checkbox"] {
   min-height: auto;
   min-width: auto;
   width: auto;
@@ -216,7 +216,7 @@ form .form-buttons {
 }
 
 .loader::after {
-  content: '';
+  content: "";
   display: inline-block;
   box-sizing: border-box;
   width: 50px;
@@ -517,7 +517,7 @@ header {
 .report-detail__header {
   padding-block: 80px;
   min-height: 600px;
-  background-image: url('../public/images/orange-background.png');
+  background-image: url("../public/images/orange-background.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
@@ -784,7 +784,7 @@ header {
 .new-report__header {
   padding-block: 70px;
   background-color: #d9770626;
-  background-image: url('../public/images/orange-background.png');
+  background-image: url("../public/images/orange-background.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
