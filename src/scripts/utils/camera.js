@@ -7,6 +7,7 @@ export default class Camera {
   #videoElement;
   #selectCameraElement;
   #canvasElement;
+
   #takePictureButton;
 
   static addNewStream(stream) {
@@ -17,6 +18,7 @@ export default class Camera {
 
     window.currentStreams = [...window.currentStreams, stream];
   }
+
   static stopAllStreams() {
     if (!Array.isArray(window.currentStreams)) {
       window.currentStreams = [];
@@ -45,6 +47,7 @@ export default class Camera {
       }
 
       this.#height = (this.#videoElement.videoHeight * this.#width) / this.#videoElement.videoWidth;
+
       this.#canvasElement.setAttribute('width', this.#width);
       this.#canvasElement.setAttribute('height', this.#height);
 
@@ -64,6 +67,7 @@ export default class Camera {
       }
 
       const { deviceId } = stream.getVideoTracks()[0].getSettings();
+
       const enumeratedDevices = await navigator.mediaDevices.enumerateDevices();
       const list = enumeratedDevices.filter((device) => {
         return device.kind === 'videoinput';
@@ -133,6 +137,7 @@ export default class Camera {
         track.stop();
       });
     }
+
     this.#clearCanvas();
   }
 
@@ -148,9 +153,12 @@ export default class Camera {
     }
 
     const context = this.#canvasElement.getContext('2d');
+
     this.#canvasElement.width = this.#width;
     this.#canvasElement.height = this.#height;
+
     context.drawImage(this.#videoElement, 0, 0, this.#width, this.#height);
+
     return await new Promise((resolve) => {
       this.#canvasElement.toBlob((blob) => resolve(blob));
     });
