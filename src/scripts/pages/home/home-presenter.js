@@ -1,3 +1,5 @@
+import { reportMapper } from '../../data/api-mapper';
+
 export default class HomePresenter {
   #view;
   #model;
@@ -31,7 +33,10 @@ export default class HomePresenter {
         return;
       }
 
-      this.#view.populateReportsList(response.message, response.data);
+      // Mapping data untuk mendapatkan properti seperti lokasi
+      const mappedReports = await Promise.all(response.data.map(reportMapper));
+
+      this.#view.populateReportsList(response.message, mappedReports);
     } catch (error) {
       console.error('initialGalleryAndMap: error:', error);
       this.#view.populateReportsListError(error.message);

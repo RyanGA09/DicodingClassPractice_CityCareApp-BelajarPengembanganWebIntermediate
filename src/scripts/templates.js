@@ -92,6 +92,7 @@ export function generateReportItemTemplate({
   return `
     <div tabindex="0" class="report-item" data-reportid="${id}">
       <img class="report-item__image" src="${evidenceImages[0]}" alt="${title}">
+      
       <div class="report-item__body">
         <div class="report-item__main">
           <h2 id="report-title" class="report-item__title">${title}</h2>
@@ -100,7 +101,7 @@ export function generateReportItemTemplate({
               <i class="fas fa-calendar-alt"></i> ${showFormattedDate(createdAt, 'id-ID')}
             </div>
             <div class="report-item__location">
-              <i class="fas fa-map"></i> ${Object.values(location)}
+              <i class="fas fa-map"></i> ${location.placeName}
             </div>
           </div>
         </div>
@@ -189,8 +190,7 @@ export function generateReportDetailTemplate({
   description,
   damageLevel,
   evidenceImages,
-  latitudeLocation,
-  longitudeLocation,
+  location,
   reporterName,
   createdAt,
 }) {
